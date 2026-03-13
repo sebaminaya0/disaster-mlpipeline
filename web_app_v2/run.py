@@ -15,6 +15,8 @@ from sqlalchemy import create_engine
 
 app = Flask(__name__)
 
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
 def tokenize(text):
     tokens = word_tokenize(text)
     lemmatizer = WordNetLemmatizer()
@@ -27,11 +29,11 @@ def tokenize(text):
     return clean_tokens
 
 # load data
-engine = create_engine("sqlite:///web_app_v2/data/DisasterResponse.db")
+engine = create_engine("sqlite:///{}".format(os.path.join(BASE_DIR, 'data', 'DisasterResponse.db')))
 df = pd.read_sql_table('fact_messages', engine)
 
 # load model
-model = joblib.load("web_app_v2/models/classifier.pkl")
+model = joblib.load(os.path.join(BASE_DIR, 'models', 'classifier.pkl'))
 
 
 # index webpage displays cool visuals and receives user input text for model
@@ -138,7 +140,8 @@ def go():
 
 
 def main():
-    app.run(host='0.0.0.0', port=3001, debug=True)
+    port = int(os.environ.get('PORT', 3001))
+    app.run(host='0.0.0.0', port=port, debug=False)
 
 
 if __name__ == '__main__':
