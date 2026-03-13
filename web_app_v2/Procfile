@@ -1,1 +1,2 @@
-web gunicorn worldbank:web_app_v2
+web: gunicorn run:app
+release: python models/train_classifier.py data/DisasterResponse.db models/classifier.pkl
