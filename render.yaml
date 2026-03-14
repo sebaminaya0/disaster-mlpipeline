@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: disaster-mlpipeline
+    runtime: python
+    rootDir: web_app_v2
+    buildCommand: pip install -r requirements.txt && python -m nltk.downloader punkt stopwords wordnet averaged_perceptron_tagger
+    startCommand: gunicorn run:app
+    releaseCommand: python models/train_classifier.py data/DisasterResponse.db models/classifier.pkl
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.9.18
