@@ -3,9 +3,9 @@ services:
     name: disaster-mlpipeline
     runtime: python
     rootDir: web_app_v2
-    buildCommand: pip install -r requirements.txt && python -m nltk.downloader punkt stopwords wordnet averaged_perceptron_tagger
-    startCommand: gunicorn run:app
-    preDeployCommand: python models/train_classifier.py data/DisasterResponse.db models/classifier.pkl
+    buildCommand: pip install -r web_app_v2/requirements.txt && python -m nltk.downloader punkt stopwords wordnet averaged_perceptron_tagger
+    startCommand: gunicorn --chdir web_app_v2 run:app
+    preDeployCommand: python web_app_v2/models/train_classifier.py web_app_v2/data/DisasterResponse.db web_app_v2/models/classifier.pkl
     envVars:
       - key: PYTHON_VERSION
         value: 3.9.18
