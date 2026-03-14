@@ -4,7 +4,7 @@ services:
     runtime: python
     rootDir: web_app_v2
     buildCommand: pip install -r web_app_v2/requirements.txt && python -m nltk.downloader punkt stopwords wordnet averaged_perceptron_tagger
-    startCommand: gunicorn --chdir web_app_v2 run:app
+    startCommand: gunicorn --chdir web_app_v2 --bind 0.0.0.0:$PORT run:app
     preDeployCommand: python web_app_v2/models/train_classifier.py web_app_v2/data/DisasterResponse.db web_app_v2/models/classifier.pkl
     envVars:
       - key: PYTHON_VERSION
